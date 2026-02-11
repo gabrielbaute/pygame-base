@@ -1,0 +1,10 @@
+[project]
+name = "game-base"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "bumpver>=2025.1131",
+    "pygame-ce>=2.5.6",
+]
