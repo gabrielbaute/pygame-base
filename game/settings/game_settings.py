@@ -12,9 +12,6 @@ class GameSettings:
     HEIGHT: int = 600
     FPS: int = 60
     
-    # Musica
-    FILE_MUSIC = "musica.mp3"
-    
     # Directorios base
     BASE_DIR: Path = Path(__file__).resolve().parent.parent
     HOME_DIR: Path = Path.home() / f".{GAME_NAME.lower()}"
@@ -31,6 +28,11 @@ class GameSettings:
     SOUNDS_DIR: Path = ASSETS_DIR / "sounds"
     MUSIC_DIR: Path = ASSETS_DIR / "music"
     
-    DIRS = [HOME_DIR, LOGS_DIR, DATA_DIR, SETTINGS_DIR, RESOURCES_DIR, ASSETS_DIR, IMG_DIR, SOUNDS_DIR, MUSIC_DIR]
-    for d in DIRS:
-        d.mkdir(exist_ok=True)
+    @classmethod
+    def initialize_directories(cls) -> None:
+        """Crea la estructura de carpetas necesaria para el juego."""
+        for directory in [cls.HOME_DIR, cls.LOGS_DIR, cls.DATA_DIR]:
+            directory.mkdir(parents=True, exist_ok=True)
+        
+        for data_directory in [cls.SETTINGS_DIR, cls.RESOURCES_DIR]:
+            data_directory.mkdir(parents=True, exist_ok=True)
