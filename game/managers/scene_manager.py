@@ -39,6 +39,19 @@ class SceneManager:
         else:
             raise ValueError(f"El estado {new_state} no tiene una escena asignada.")
 
+    def update(self, dt: float) -> None:
+        """Actualiza la escena activa y gestiona peticiones de cambio."""
+        if self._active_scene:
+            # 1. Ejecutar lógica de la escena
+            self._active_scene.update(dt)
+
+            # 2. Revisar si la escena solicitó un cambio de estado
+            new_state = self._active_scene.pending_state_change
+            if new_state:
+                # Limpiamos la petición antes de cambiar
+                self._active_scene.pending_state_change = None
+                self.set_state(new_state)
+
     @property
     def active_scene(self) -> Scene:
         """Retorna la escena que debe ser procesada por el GameEngine."""
