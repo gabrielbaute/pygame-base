@@ -24,7 +24,8 @@ class GameSettings:
     
     # Directorios de assets
     ASSETS_DIR: Path = BASE_DIR / "assets"
-    IMG_DIR: Path = ASSETS_DIR / "img"
+    FONTS_DIR: Path = ASSETS_DIR / "fonts"
+    IMG_DIR: Path = ASSETS_DIR / "images"
     SOUNDS_DIR: Path = ASSETS_DIR / "sounds"
     MUSIC_DIR: Path = ASSETS_DIR / "music"
     
