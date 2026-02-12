@@ -1,3 +1,4 @@
+import logging
 from typing import Dict
 from pathlib import Path
 from pygame import mixer, mixer_music
@@ -13,6 +14,7 @@ class SoundManager:
 
     def __init__(self) -> None:
         """Inicializa los directorios de audio y la caché de SFX."""
+        self.logger = logging.getLogger(self.__class__.__name__)
         self._sounds_dir: Path = GameSettings.SOUNDS_DIR
         self._music_dir: Path = GameSettings.MUSIC_DIR
         self._sfx_cache: Dict[str, mixer.Sound] = {}
@@ -33,6 +35,7 @@ class SoundManager:
             sound.set_volume(volume)
             sound.play()
         except Exception as e:
+            self.logger.exception(f"No se pudo reproducir el SFX {name}: {e}")
             raise AssetManagerError(f"No se pudo reproducir el SFX {name}: {e}")
 
     def play_music(self, name: str, loops: int = -1, volume: float = 0.5) -> None:
@@ -49,6 +52,7 @@ class SoundManager:
             mixer_music.set_volume(volume)
             mixer_music.play(loops)
         except Exception as e:
+            self.logger.exception(f"No se pudo reproducir la música {name}: {e}")
             raise AssetManagerError(f"No se pudo reproducir la música {name}: {e}")
 
 

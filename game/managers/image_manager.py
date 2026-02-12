@@ -1,6 +1,7 @@
-from pygame import image, Surface
-from pathlib import Path
+import logging
 from typing import Dict
+from pathlib import Path
+from pygame import image, Surface
 
 from game.settings import GameSettings
 from game.managers.asset_manager_error import AssetManagerError
@@ -13,6 +14,7 @@ class ImageManager:
 
     def __init__(self) -> None:
         """Inicializa el manager con el directorio configurado en GameSettings."""
+        self.logger = logging.getLogger(self.__class__.__name__)
         self._images_dir: Path = GameSettings.IMG_DIR
         self._cache: Dict[str, Surface] = {}
 
@@ -34,6 +36,7 @@ class ImageManager:
                 img: Surface = image.load(path).convert_alpha()
                 self._cache[name] = img
             except Exception as e:
+                self.logger.exception(f"No se pudo cargar la imagen {path}: {e}")
                 raise AssetManagerError(f"No se pudo cargar la imagen {path}: {e}")
         
         return self._cache[name]
@@ -48,6 +51,7 @@ class ImageManager:
                 if name not in self._cache:
                     try:
                         self._cache[name] = image.load(file_path).convert_alpha()
-                        print(f"[LOG] Imagen cargada: {name}")
+                        self.logger.debug(f"Cargando imagen {file_path}")
                     except Exception as e:
-                        print(f"[ERROR] No se pudo pre-cargar {name}: {e}")
+                        self.logger.exception(f"No se pudo cargar la imagen {file_path}: {e}")
+                        continue

@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, Optional
 
 from game.scenes import Scene
@@ -8,6 +9,7 @@ class SceneManager:
     Controlador central para la transición y gestión de escenas.
     """
     def __init__(self) -> None:
+        self.logger = logging.getLogger(self.__class__.__name__)
         self._scenes: Dict[GameState, Scene] = {}
         self._current_state: Optional[GameState] = None
         self._active_scene: Optional[Scene] = None
@@ -37,6 +39,7 @@ class SceneManager:
             self._active_scene = self._scenes[new_state]
             # Podrías disparar logs aquí usando tu GameLogger
         else:
+            self.logger.error(f"El estado {new_state} no tiene una escena asociada.")
             raise ValueError(f"El estado {new_state} no tiene una escena asignada.")
 
     def update(self, dt: float) -> None:
