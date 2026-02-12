@@ -1,9 +1,3 @@
-# Entidades base
-from game.entities.base import Entity
-from game.entities.mobile import MobileEntity
-from game.entities.obstacle import Obstacle
-
-# Entidades de la UI
 from game.entities.ui.button import Button
 from game.entities.ui.icon import Icon
 from game.entities.ui.label import Label
